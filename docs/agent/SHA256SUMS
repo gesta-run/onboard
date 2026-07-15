@@ -1,0 +1,5 @@
+d2d2e12c9fbfaaef5b5deb4673b434f27e27b99e02343f6a17ada3959933c1dc  install.sh
+e5d1adc21a3889fad347bade7b6ddb0c993ea0372aa11e964f5ac74273383ae3  bin/gesta-agent-darwin-amd64
+4dd80e125dfc491bd3286b4a2093a5ce7577837f55819d125c42ab4ddb6df638  bin/gesta-agent-darwin-arm64
+d2c669d84373fef132e48a9ae9ab1eacbb748fd3187849066ed8b2479fa2f25e  bin/gesta-agent-linux-amd64
+baaba480deb649f4b3c2a05525e912074d1d7beb78f73ac217c87bd12ab53f78  bin/gesta-agent-linux-arm64

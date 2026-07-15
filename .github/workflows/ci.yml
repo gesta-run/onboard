@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify installer syntax
+        run: |
+          sh -n docs/install-agent.sh
+          sh -n docs/agent/install.sh
+
+      - name: Verify checksums
+        run: |
+          cd docs/agent
+          sha256sum -c SHA256SUMS
