@@ -1,0 +1,173 @@
+name: Prepare Agent Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Agent version to publish, for example 0.0.1-rc49
+        required: true
+        type: string
+      agent_ref:
+        description: Gesta agent tag, branch, or commit SHA to build
+        required: true
+        type: string
+      channel:
+        description: Release channel
+        required: true
+        type: choice
+        options:
+          - rc
+          - stable
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out onboard
+        uses: actions/checkout@v4
+
+      - name: Check out agent
+        uses: actions/checkout@v4
+        with:
+          repository: gesta-run/gesta-agent
+          ref: ${{ inputs.agent_ref }}
+          token: ${{ secrets.GESTA_AGENT_REPO_TOKEN }}
+          path: _agent
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+          cache: true
+          cache-dependency-path: _agent/go.mod
+
+      - name: Validate release input
+        id: release
+        run: |
+          set -euo pipefail
+          if ! printf '%s\n' "${{ inputs.version }}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$'; then
+            echo "version must use semantic version format" >&2
+            exit 1
+          fi
+          if [ ! -x _agent/scripts/build-agent-binaries.sh ]; then
+            echo "agent ref does not provide the release build script" >&2
+            exit 1
+          fi
+          case "${{ inputs.channel }}" in
+            rc)
+              case "${{ inputs.version }}" in
+                *-rc*) ;;
+                *) echo "rc channel requires an rc version" >&2; exit 1 ;;
+              esac
+              ;;
+            stable)
+              case "${{ inputs.version }}" in
+                *-rc*) echo "stable channel cannot publish an rc version" >&2; exit 1 ;;
+              esac
+              ;;
+            *) echo "unsupported channel" >&2; exit 1 ;;
+          esac
+          agent_sha="$(git -C _agent rev-parse HEAD)"
+          echo "agent_sha=$agent_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Build release artifacts
+        run: |
+          set -euo pipefail
+          channel="${{ inputs.channel }}"
+          version="${{ inputs.version }}"
+          target="artifacts/agent/$channel/$version"
+          if [ -e "$target" ]; then
+            echo "release already exists: $channel/$version" >&2
+            exit 1
+          fi
+          mkdir -p "$target/bin"
+          cp _agent/scripts/install.sh "$target/install.sh"
+          python3 - "$target/install.sh" "$channel" "$version" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          install_path = pathlib.Path(sys.argv[1])
+          channel = sys.argv[2]
+          version = sys.argv[3]
+          text = install_path.read_text()
+          default_url = f"https://gesta-run.github.io/onboard/agent/{channel}/{version}"
+          replacement = "install_base_url=${" + f"GESTA_AGENT_INSTALL_BASE_URL:-{default_url}" + "}"
+          text = re.sub(r"install_base_url=\$\{GESTA_AGENT_INSTALL_BASE_URL:-[^}]+\}", replacement, text)
+          install_path.write_text(text)
+          PY
+          _agent/scripts/build-agent-binaries.sh "$target/bin" "${{ inputs.version }}"
+          python3 - "$target/release.json" <<'PY'
+          import datetime
+          import json
+          import pathlib
+          import sys
+
+          payload = {
+              "channel": "${{ inputs.channel }}",
+              "version": "${{ inputs.version }}",
+              "agent_ref": "${{ inputs.agent_ref }}",
+              "agent_sha": "${{ steps.release.outputs.agent_sha }}",
+              "generated_at": datetime.datetime.now(datetime.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+          }
+          pathlib.Path(sys.argv[1]).write_text(json.dumps(payload, indent=2) + "\n")
+          PY
+          chmod 755 "$target/install.sh" "$target"/bin/gesta-agent-*
+          (cd "$target" && sha256sum install.sh release.json bin/gesta-agent-* > SHA256SUMS)
+          python3 - "artifacts/install-agent.sh" "$channel" "$version" <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          path = pathlib.Path(sys.argv[1])
+          channel = sys.argv[2]
+          version = sys.argv[3]
+          text = path.read_text()
+          text, count = re.subn(rf"^{channel}_version=.*$", f"{channel}_version={version}", text, flags=re.MULTILINE)
+          if count != 1:
+              raise SystemExit(f"could not update {channel}_version")
+          path.write_text(text)
+          PY
+
+      - name: Open release pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          branch="release/agent-${{ inputs.channel }}-${{ inputs.version }}"
+          git config user.name "Gesta Bot"
+          git config user.email "bot@cloudpilot.ai"
+          git fetch origin "$branch" || true
+          git checkout -B "$branch"
+          git add artifacts
+          if git diff --cached --quiet; then
+            echo "No artifact changes to publish."
+            exit 0
+          fi
+          git commit -s -m "Update ${{ inputs.channel }} agent assets to ${{ inputs.version }}"
+          git push --force-with-lease origin "$branch"
+          body_file="$(mktemp)"
+          {
+            echo "Updates Gesta agent ${{ inputs.channel }} artifacts."
+            echo
+            echo "- Version: ${{ inputs.version }}"
+            echo "- Agent ref: ${{ inputs.agent_ref }}"
+            echo "- Agent SHA: ${{ steps.release.outputs.agent_sha }}"
+            echo "- Channel: ${{ inputs.channel }}"
+          } > "$body_file"
+          pr_number="$(gh pr list --state open --head "$branch" --json number --jq '.[0].number // ""')"
+          if [ -z "$pr_number" ]; then
+            gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "Update ${{ inputs.channel }} agent assets to ${{ inputs.version }}" \
+              --body-file "$body_file"
+          else
+            gh pr edit "$pr_number" \
+              --title "Update ${{ inputs.channel }} agent assets to ${{ inputs.version }}" \
+              --body-file "$body_file"
+          fi
