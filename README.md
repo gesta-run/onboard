@@ -14,11 +14,15 @@ cd "${HOME:-/tmp}" && curl -fsSL https://gesta-run.github.io/onboard/install-age
   --apikey sk-...
 ```
 
+The public installer uses the `rc` channel by default. Set
+`GESTA_AGENT_CHANNEL=stable` to install the stable channel after a stable agent
+artifact has been published.
+
 ## Layout
 
-- `docs/install-agent.sh`: public entrypoint for agent installation.
-- `docs/agent/install.sh`: installer mirrored under the agent asset root.
-- `docs/agent/bin/`: published platform binaries.
-- `docs/agent/SHA256SUMS`: checksums for the installer and binaries.
+- `artifacts/install-agent.sh`: public entrypoint for agent installation.
+- `artifacts/install-agent.sh`: explicit current version for each channel.
+- `artifacts/agent/rc/<version>/`: immutable release candidate installer and binaries.
+- `artifacts/agent/stable/<version>/`: immutable stable installer and binaries.
 
-GitHub Pages serves this repository from `docs/`.
+GitHub Pages publishes the `artifacts/` directory.

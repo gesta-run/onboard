@@ -15,10 +15,10 @@ jobs:
 
       - name: Verify installer syntax
         run: |
-          sh -n docs/install-agent.sh
-          sh -n docs/agent/install.sh
+          sh -n artifacts/install-agent.sh
+          find artifacts/agent -name install.sh -print0 | xargs -0 -n1 sh -n
 
       - name: Verify checksums
         run: |
-          cd docs/agent
-          sha256sum -c SHA256SUMS
+          set -euo pipefail
+          find artifacts/agent -name SHA256SUMS -execdir sha256sum -c SHA256SUMS \;
