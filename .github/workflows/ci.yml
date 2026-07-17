@@ -16,6 +16,7 @@ jobs:
       - name: Verify installer syntax
         run: |
           sh -n artifacts/install-agent.sh
+          sh -n artifacts/install-agent-rc.sh
           find artifacts/agent -name install.sh -print0 | xargs -0 -n1 sh -n
 
       - name: Verify checksums
