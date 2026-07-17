@@ -40,7 +40,7 @@ if ! printf '%s\n' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+
   exit 1
 fi
 
-channel_url=${GESTA_AGENT_INSTALL_BASE_URL:-https://gesta-run.github.io/onboard/agent/$channel}
+channel_url=${GESTA_AGENT_INSTALL_BASE_URL:-https://artifacts.gesta.run/gesta/agent/$channel}
 install_tmp=${TMPDIR:-/tmp}/gesta-install-agent.$$
 
 cleanup() {

@@ -9,7 +9,7 @@ users and machines.
 ## Install Agent
 
 ```sh
-cd "${HOME:-/tmp}" && curl -fsSL https://gesta-run.github.io/onboard/install-agent.sh | bash -s -- \
+cd "${HOME:-/tmp}" && curl -fsSL https://artifacts.gesta.run/gesta/install-agent.sh | bash -s -- \
   --control-url https://console.gesta.run \
   --apikey sk-...
 ```

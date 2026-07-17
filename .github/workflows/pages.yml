@@ -28,10 +28,18 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Assemble artifact site
+        run: |
+          set -euo pipefail
+          site_dir="$RUNNER_TEMP/gesta-pages"
+          mkdir -p "$site_dir/gesta"
+          cp -a artifacts/. "$site_dir/"
+          cp -a artifacts/. "$site_dir/gesta/"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: artifacts
+          path: ${{ runner.temp }}/gesta-pages
 
       - name: Deploy Pages
         id: deployment
