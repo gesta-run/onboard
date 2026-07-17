@@ -14,15 +14,21 @@ cd "${HOME:-/tmp}" && curl -fsSL https://artifacts.gesta.run/gesta/install-agent
   --apikey sk-...
 ```
 
-The public installer uses the `rc` channel by default. Set
-`GESTA_AGENT_CHANNEL=stable` to install the stable channel after a stable agent
-artifact has been published.
+The production installer selects the `stable` channel. It becomes installable
+after the first stable agent artifact is published.
+
+For preproduction, use the RC installer:
+
+```sh
+cd "${HOME:-/tmp}" && curl -fsSL https://artifacts.gesta.run/gesta/install-agent-rc.sh | bash -s -- \
+  --control-url https://pre-api.gesta.run \
+  --apikey sk-...
+```
 
 ## Layout
 
-- `artifacts/install-agent.sh`: public entrypoint for agent installation.
-- `artifacts/install-agent.sh`: explicit current version for each channel.
-- `artifacts/agent/rc/<version>/`: immutable release candidate installer and binaries.
-- `artifacts/agent/stable/<version>/`: immutable stable installer and binaries.
+- `artifacts/install-agent.sh`: production entrypoint for the stable channel.
+- `artifacts/install-agent-rc.sh`: preproduction entrypoint for the RC channel.
+- `artifacts/agent/<channel>/<version>/`: immutable release installers and binaries.
 
 GitHub Pages publishes the `artifacts/` directory.

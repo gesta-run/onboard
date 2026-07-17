@@ -8,8 +8,8 @@ curl -fsSL https://artifacts.gesta.run/gesta/install-agent.sh | bash -s -- \
   --apikey sk-...
 ```
 
-The default channel is `rc`. Set `GESTA_AGENT_CHANNEL=stable` to use the stable
-channel after it is published.
+`install-agent.sh` selects the stable channel for production use. It becomes
+installable after the first stable release is published.
 
-The public installer selects its explicit channel version from `install-agent.sh`.
-Release artifacts remain under `agent/<channel>/<version>/`.
+For preproduction, use `install-agent-rc.sh`; it always selects the RC channel.
+Both entrypoints resolve immutable releases under `agent/<channel>/<version>/`.
