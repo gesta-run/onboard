@@ -95,7 +95,7 @@ jobs:
           channel = sys.argv[2]
           version = sys.argv[3]
           text = install_path.read_text()
-          default_url = f"https://gesta-run.github.io/onboard/agent/{channel}/{version}"
+          default_url = f"https://artifacts.gesta.run/gesta/agent/{channel}/{version}"
           replacement = "install_base_url=${" + f"GESTA_AGENT_INSTALL_BASE_URL:-{default_url}" + "}"
           text = re.sub(r"install_base_url=\$\{GESTA_AGENT_INSTALL_BASE_URL:-[^}]+\}", replacement, text)
           install_path.write_text(text)

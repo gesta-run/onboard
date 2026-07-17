@@ -3,7 +3,7 @@
 This directory is published by GitHub Pages.
 
 ```sh
-curl -fsSL https://gesta-run.github.io/onboard/install-agent.sh | bash -s -- \
+curl -fsSL https://artifacts.gesta.run/gesta/install-agent.sh | bash -s -- \
   --control-url https://console.gesta.run \
   --apikey sk-...
 ```
