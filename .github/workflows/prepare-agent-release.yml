@@ -118,6 +118,28 @@ jobs:
           PY
           chmod 755 "$target/install.sh" "$target"/bin/gesta-agent-*
           (cd "$target" && sha256sum install.sh release.json bin/gesta-agent-* > SHA256SUMS)
+          python3 - "artifacts/agent/$channel/manifest.json" "$target/SHA256SUMS" "$channel" "$version" <<'PY'
+          import json
+          import pathlib
+          import sys
+
+          manifest_path = pathlib.Path(sys.argv[1])
+          checksums_path = pathlib.Path(sys.argv[2])
+          channel = sys.argv[3]
+          version = sys.argv[4]
+          base_url = f"https://artifacts.gesta.run/gesta/agent/{channel}/{version}"
+          assets = {}
+          for line in checksums_path.read_text().splitlines():
+              sha256, path = line.split(maxsplit=1)
+              name = pathlib.PurePosixPath(path).name
+              if not name.startswith("gesta-agent-"):
+                  continue
+              platform = name.removeprefix("gesta-agent-").replace("-", "/", 1)
+              assets[platform] = {"url": f"{base_url}/bin/{name}", "sha256": sha256}
+          if set(assets) != {"darwin/amd64", "darwin/arm64", "linux/amd64", "linux/arm64"}:
+              raise SystemExit("release is missing a supported agent asset")
+          manifest_path.write_text(json.dumps({"channel": channel, "version": version, "assets": assets}, indent=2) + "\n")
+          PY
           python3 - "artifacts/install-agent.sh" "$channel" "$version" <<'PY'
           import pathlib
           import re

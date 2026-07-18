@@ -30,5 +30,8 @@ cd "${HOME:-/tmp}" && curl -fsSL https://artifacts.gesta.run/gesta/install-agent
 - `artifacts/install-agent.sh`: production entrypoint for the stable channel.
 - `artifacts/install-agent-rc.sh`: preproduction entrypoint for the RC channel.
 - `artifacts/agent/<channel>/<version>/`: immutable release installers and binaries.
+- `artifacts/agent/<channel>/manifest.json`: mutable channel pointer consumed by
+  the Control Plane for automatic upgrades. It contains the target version and
+  SHA256 for each supported platform.
 
 GitHub Pages publishes the `artifacts/` directory.
