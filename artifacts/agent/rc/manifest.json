@@ -1,22 +1,22 @@
 {
   "channel": "rc",
-  "version": "0.0.1-rc62",
+  "version": "0.0.1-rc63",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc62/bin/gesta-agent-darwin-amd64",
-      "sha256": "780ba2918ea150ca131d9cc70bc5e081564eedba9e5a07571fda6f03759d14aa"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc63/bin/gesta-agent-darwin-amd64",
+      "sha256": "1abb37d01b0cd56a95b5a19455cd818c464e107e1b89b4888e5677876785fffa"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc62/bin/gesta-agent-darwin-arm64",
-      "sha256": "438cdb21cf6f2ad098747143ff50d15bb7ce4ecd2c0d3f53ed88416163f9702d"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc63/bin/gesta-agent-darwin-arm64",
+      "sha256": "3615968a5d365ddd3edbe59f54dda709af3a49ca3a29c075f39318439765dce2"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc62/bin/gesta-agent-linux-amd64",
-      "sha256": "6649d65d70b44c1d617029ef2a4a2d0e2204852bea9530d27060243711aefc96"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc63/bin/gesta-agent-linux-amd64",
+      "sha256": "cbd8a677ea77b90bed9c4fae92a8c772e8132e1ba5331ca558b5a7303a9623fb"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc62/bin/gesta-agent-linux-arm64",
-      "sha256": "95f945b944c1e8cfdd09f736847ca560f269b1879b7ac068a60fe951e965bd9b"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc63/bin/gesta-agent-linux-arm64",
+      "sha256": "71a37af939ec8c76f58ec36562c19615cc7073bbfad937cff8a069d6046193d4"
     }
   }
 }
