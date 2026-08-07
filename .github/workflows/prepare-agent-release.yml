@@ -77,84 +77,13 @@ jobs:
       - name: Build release artifacts
         run: |
           set -euo pipefail
-          channel="${{ inputs.channel }}"
-          version="${{ inputs.version }}"
-          target="artifacts/agent/$channel/$version"
-          if [ -e "$target" ]; then
-            echo "release already exists: $channel/$version" >&2
-            exit 1
-          fi
-          mkdir -p "$target/bin"
-          cp _agent/scripts/install.sh "$target/install.sh"
-          python3 - "$target/install.sh" "$channel" "$version" <<'PY'
-          import pathlib
-          import re
-          import sys
-
-          install_path = pathlib.Path(sys.argv[1])
-          channel = sys.argv[2]
-          version = sys.argv[3]
-          text = install_path.read_text()
-          default_url = f"https://artifacts.gesta.run/gesta/agent/{channel}/{version}"
-          replacement = "install_base_url=${" + f"GESTA_AGENT_INSTALL_BASE_URL:-{default_url}" + "}"
-          text = re.sub(r"install_base_url=\$\{GESTA_AGENT_INSTALL_BASE_URL:-[^}]+\}", replacement, text)
-          install_path.write_text(text)
-          PY
-          _agent/scripts/build-agent-binaries.sh "$target/bin" "${{ inputs.version }}"
-          python3 - "$target/release.json" <<'PY'
-          import datetime
-          import json
-          import pathlib
-          import sys
-
-          payload = {
-              "channel": "${{ inputs.channel }}",
-              "version": "${{ inputs.version }}",
-              "agent_ref": "${{ inputs.agent_ref }}",
-              "agent_sha": "${{ steps.release.outputs.agent_sha }}",
-              "generated_at": datetime.datetime.now(datetime.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-          }
-          pathlib.Path(sys.argv[1]).write_text(json.dumps(payload, indent=2) + "\n")
-          PY
-          chmod 755 "$target/install.sh" "$target"/bin/gesta-agent-*
-          (cd "$target" && sha256sum install.sh release.json bin/gesta-agent-* > SHA256SUMS)
-          python3 - "artifacts/agent/$channel/manifest.json" "$target/SHA256SUMS" "$channel" "$version" <<'PY'
-          import json
-          import pathlib
-          import sys
-
-          manifest_path = pathlib.Path(sys.argv[1])
-          checksums_path = pathlib.Path(sys.argv[2])
-          channel = sys.argv[3]
-          version = sys.argv[4]
-          base_url = f"https://artifacts.gesta.run/gesta/agent/{channel}/{version}"
-          assets = {}
-          for line in checksums_path.read_text().splitlines():
-              sha256, path = line.split(maxsplit=1)
-              name = pathlib.PurePosixPath(path).name
-              if not name.startswith("gesta-agent-"):
-                  continue
-              platform = name.removeprefix("gesta-agent-").replace("-", "/", 1)
-              assets[platform] = {"url": f"{base_url}/bin/{name}", "sha256": sha256}
-          if set(assets) != {"darwin/amd64", "darwin/arm64", "linux/amd64", "linux/arm64"}:
-              raise SystemExit("release is missing a supported agent asset")
-          manifest_path.write_text(json.dumps({"channel": channel, "version": version, "assets": assets}, indent=2) + "\n")
-          PY
-          python3 - "artifacts/install-agent.sh" "$channel" "$version" <<'PY'
-          import pathlib
-          import re
-          import sys
-
-          path = pathlib.Path(sys.argv[1])
-          channel = sys.argv[2]
-          version = sys.argv[3]
-          text = path.read_text()
-          text, count = re.subn(rf"^{channel}_version=.*$", f"{channel}_version={version}", text, flags=re.MULTILINE)
-          if count != 1:
-              raise SystemExit(f"could not update {channel}_version")
-          path.write_text(text)
-          PY
-
+          python3 scripts/prepare_agent_release.py \
+            --agent-dir _agent \
+            --artifacts-dir artifacts \
+            --channel "${{ inputs.channel }}" \
+            --version "${{ inputs.version }}" \
+            --agent-ref "${{ inputs.agent_ref }}" \
+            --agent-sha "${{ steps.release.outputs.agent_sha }}"
       - name: Open release pull request
         env:
           GH_TOKEN: ${{ github.token }}
