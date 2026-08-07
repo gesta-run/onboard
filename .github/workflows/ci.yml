@@ -18,8 +18,38 @@ jobs:
           sh -n artifacts/install-agent.sh
           sh -n artifacts/install-agent-rc.sh
           find artifacts/agent -name install.sh -print0 | xargs -0 -n1 sh -n
+          python3 -m py_compile scripts/prepare_agent_release.py
+          python3 -m unittest scripts/test_prepare_agent_release.py
 
       - name: Verify checksums
         run: |
           set -euo pipefail
           find artifacts/agent -name SHA256SUMS -execdir sha256sum -c SHA256SUMS \;
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify PowerShell installer syntax
+        shell: pwsh
+        run: |
+          $scripts = @(
+            Get-Item ./artifacts/install-agent.ps1
+            Get-Item ./artifacts/install-agent-rc.ps1
+            Get-ChildItem ./artifacts/agent -Filter install-agent.ps1 -Recurse
+          )
+          foreach ($script in $scripts) {
+            $tokens = $null
+            $errors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile(
+              $script.FullName,
+              [ref]$tokens,
+              [ref]$errors
+            )
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error $_ }
+              exit 1
+            }
+          }
