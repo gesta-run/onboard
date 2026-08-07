@@ -58,7 +58,7 @@ try {
     if ($NoDaemon) {
         $arguments.NoDaemon = $true
     }
-    & $installerPath @arguments
+    & ([scriptblock]::Create([IO.File]::ReadAllText($installerPath))) @arguments
 } finally {
     if (Test-Path -LiteralPath $installerPath) {
         Remove-Item -LiteralPath $installerPath -Force -ErrorAction SilentlyContinue

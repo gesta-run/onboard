@@ -38,7 +38,7 @@ try {
         $arguments.NoDaemon = $true
     }
     $env:GESTA_AGENT_CHANNEL = "rc"
-    & $installerPath @arguments
+    & ([scriptblock]::Create([IO.File]::ReadAllText($installerPath))) @arguments
 } finally {
     $env:GESTA_AGENT_CHANNEL = $previousChannel
     if (Test-Path -LiteralPath $installerPath) {
