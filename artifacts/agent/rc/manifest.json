@@ -1,26 +1,26 @@
 {
   "channel": "rc",
-  "version": "0.0.1-rc81",
+  "version": "0.0.1-rc82",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc81/bin/gesta-agent-darwin-amd64",
-      "sha256": "544f114800ca63772de1878302e75cfee552a810daedd35103dc8082177df1b4"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc82/bin/gesta-agent-darwin-amd64",
+      "sha256": "16a6105ea3a0d8f2c00985b8933313b138bebe0de42bfcb6ee6b55f7229352ce"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc81/bin/gesta-agent-darwin-arm64",
-      "sha256": "9db39bb730fe2ba9bff6583cdd02f83fa98315fd3de4864b746b1df944cb2eed"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc82/bin/gesta-agent-darwin-arm64",
+      "sha256": "b378bfba85823963bf3e5e6aa56be6a344be52eee2c2ac0157badf6b31cf2fc1"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc81/bin/gesta-agent-linux-amd64",
-      "sha256": "d16c6205f5973f81112b8c6211e679d8056230e199f2661f7838f8417788e15f"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc82/bin/gesta-agent-linux-amd64",
+      "sha256": "0843088414e76bba9268133be921df5e34fb18b786995fdfbc6bb2c8c10d2afb"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc81/bin/gesta-agent-linux-arm64",
-      "sha256": "ea4b804330c2a543c97cf0bdf652f4fbcf92c11ba843246b648f18c957946060"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc82/bin/gesta-agent-linux-arm64",
+      "sha256": "1078fd3bd4908131dc3519ac04cd368c1a0fbf2798e8acbc1b6436587427aeab"
     },
     "windows/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc81/bin/gesta-agent-windows-amd64.exe",
-      "sha256": "0bcb5b5b22e3aa87db5004fc71218506aebe0de40397f9f8597997c2f61db3a6"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc82/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "c8c7a882b52144d0cca7c678d82df0651efae517eadadc9b2eb51e4ba1df79be"
     }
   }
 }
