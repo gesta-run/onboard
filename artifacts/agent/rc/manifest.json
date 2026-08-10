@@ -1,26 +1,26 @@
 {
   "channel": "rc",
-  "version": "0.0.1-rc86",
+  "version": "0.0.1-rc87",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-darwin-amd64",
-      "sha256": "233bc76bece387c79e2250667c665a59f34976702bf31c0798d2cc12d8948646"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc87/bin/gesta-agent-darwin-amd64",
+      "sha256": "39e6d24dfce2d2d96f8341a7e0b5b8dbc0c76e2b645ab642d3cc36a6a91c0149"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-darwin-arm64",
-      "sha256": "8a29b4d002ba370ee83fd1c563486777b4725a5260887a41a66163d2bb3b5a48"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc87/bin/gesta-agent-darwin-arm64",
+      "sha256": "0fbba9e51dbeeb5188e34651e5312436e3819695c7dba5af1c489aed90b26445"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-linux-amd64",
-      "sha256": "ce2b07047ddcc1c1b70faa3136f751b2c70e4aa3b53f6f4e7dc72ef2bfaad61b"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc87/bin/gesta-agent-linux-amd64",
+      "sha256": "134aeb3dbf84f3b4ba6721132f8913fad43d7640b9c7c72d0f5be830b87fad2f"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-linux-arm64",
-      "sha256": "fd04eb6a04952cc6c85f534baa50725a8c042a08bc01f48ab4f9478582449038"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc87/bin/gesta-agent-linux-arm64",
+      "sha256": "3a480b9a8a3e0f4c96b4282318a3157aa3b881b2a6af730cd195f05933a3d34f"
     },
     "windows/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-windows-amd64.exe",
-      "sha256": "c254b02b99e79f35a8cdff8936e7450bdd804a6275ada1519f86fe472265bb9e"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc87/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "71ef78db4e13993f37edd01c1b60447f0c2dac3d9a8709e7dfb9e9c747f68913"
     }
   }
 }
