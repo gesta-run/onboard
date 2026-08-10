@@ -1,26 +1,26 @@
 {
   "channel": "rc",
-  "version": "0.0.1-rc85",
+  "version": "0.0.1-rc86",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-darwin-amd64",
-      "sha256": "cbf635e708ba5dd23ea153eba78633fa47ce31d6d69daeec59a608a37a79cba9"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-darwin-amd64",
+      "sha256": "233bc76bece387c79e2250667c665a59f34976702bf31c0798d2cc12d8948646"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-darwin-arm64",
-      "sha256": "24fa29653781b260817d51f37b41585cc692d689f033b09ddcdc0cd99ea4bbdc"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-darwin-arm64",
+      "sha256": "8a29b4d002ba370ee83fd1c563486777b4725a5260887a41a66163d2bb3b5a48"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-linux-amd64",
-      "sha256": "6e97002bdb1a887cf9d078c31e6fb0783b6aca132a1db6a1a33036101d029e5d"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-linux-amd64",
+      "sha256": "ce2b07047ddcc1c1b70faa3136f751b2c70e4aa3b53f6f4e7dc72ef2bfaad61b"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-linux-arm64",
-      "sha256": "d9574567da8ddcc061c70bcad2aba5fdea864a8c6db18d6a3a37be5e3004a9ca"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-linux-arm64",
+      "sha256": "fd04eb6a04952cc6c85f534baa50725a8c042a08bc01f48ab4f9478582449038"
     },
     "windows/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-windows-amd64.exe",
-      "sha256": "00992609d12f08de1dfacde767794bff5139639e7f95ac9c41759bc190ff9699"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc86/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "c254b02b99e79f35a8cdff8936e7450bdd804a6275ada1519f86fe472265bb9e"
     }
   }
 }
