@@ -92,6 +92,8 @@ def write_checksums(target: pathlib.Path) -> dict[str, str]:
     paths = [
         target / "install.sh",
         target / "install-agent.ps1",
+        target / "uninstall.sh",
+        target / "uninstall-agent.ps1",
         target / "release.json",
         *sorted((target / "bin").glob("gesta-agent-*")),
     ]
@@ -161,6 +163,19 @@ def update_channel_entrypoints(
     powershell_path.write_text(powershell_text)
 
 
+def update_uninstall_entrypoints(
+    artifacts_dir: pathlib.Path,
+    release_target: pathlib.Path,
+) -> None:
+    shell_path = artifacts_dir / "uninstall-agent.sh"
+    shutil.copy2(release_target / "uninstall.sh", shell_path)
+    shell_path.chmod(0o755)
+    shutil.copy2(
+        release_target / "uninstall-agent.ps1",
+        artifacts_dir / "uninstall-agent.ps1",
+    )
+
+
 def main() -> None:
     args = parse_args()
     repository_root = pathlib.Path(__file__).resolve().parent.parent
@@ -172,6 +187,11 @@ def main() -> None:
     shutil.copy2(
         args.agent_dir / "scripts" / "install-agent.ps1",
         target / "install-agent.ps1",
+    )
+    shutil.copy2(args.agent_dir / "scripts" / "uninstall.sh", target / "uninstall.sh")
+    shutil.copy2(
+        args.agent_dir / "scripts" / "uninstall-agent.ps1",
+        target / "uninstall-agent.ps1",
     )
     rewrite_installers(target, args.channel, args.version)
     subprocess.run(
@@ -190,6 +210,7 @@ def main() -> None:
         args.agent_sha,
     )
     (target / "install.sh").chmod(0o755)
+    (target / "uninstall.sh").chmod(0o755)
     for binary in (target / "bin").glob("gesta-agent-*"):
         binary.chmod(0o755)
     checksums = write_checksums(target)
@@ -199,6 +220,7 @@ def main() -> None:
         args.channel,
         args.version,
     )
+    update_uninstall_entrypoints(args.artifacts_dir, target)
 
 
 if __name__ == "__main__":

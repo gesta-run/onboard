@@ -57,6 +57,12 @@ jobs:
             echo "agent ref does not provide the release build script" >&2
             exit 1
           fi
+          for script in install.sh install-agent.ps1 uninstall.sh uninstall-agent.ps1; do
+            if [ ! -f "_agent/scripts/$script" ]; then
+              echo "agent ref does not provide scripts/$script" >&2
+              exit 1
+            fi
+          done
           case "${{ inputs.channel }}" in
             rc)
               case "${{ inputs.version }}" in
