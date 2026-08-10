@@ -6,6 +6,8 @@ from scripts.prepare_agent_release import (
     platform_from_asset,
     rewrite_installers,
     update_channel_entrypoints,
+    update_uninstall_entrypoints,
+    write_checksums,
 )
 
 
@@ -49,6 +51,54 @@ class PrepareAgentReleaseTest(unittest.TestCase):
             self.assertIn(
                 '$rcVersion = "0.0.1-rc81"',
                 (artifacts / "install-agent.ps1").read_text(),
+            )
+
+    def test_update_uninstall_entrypoints_copies_release_scripts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            artifacts = root / "artifacts"
+            release = root / "release"
+            artifacts.mkdir()
+            release.mkdir()
+            (release / "uninstall.sh").write_text("#!/bin/sh\necho shell\n")
+            (release / "uninstall-agent.ps1").write_text("Write-Host powershell\n")
+
+            update_uninstall_entrypoints(artifacts, release)
+
+            self.assertEqual(
+                (artifacts / "uninstall-agent.sh").read_text(),
+                "#!/bin/sh\necho shell\n",
+            )
+            self.assertEqual(
+                (artifacts / "uninstall-agent.ps1").read_text(),
+                "Write-Host powershell\n",
+            )
+            self.assertTrue((artifacts / "uninstall-agent.sh").stat().st_mode & 0o100)
+
+    def test_write_checksums_includes_install_and_uninstall_scripts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = pathlib.Path(temporary)
+            (target / "bin").mkdir()
+            for name in (
+                "install.sh",
+                "install-agent.ps1",
+                "uninstall.sh",
+                "uninstall-agent.ps1",
+                "release.json",
+            ):
+                (target / name).write_text(name)
+
+            checksums = write_checksums(target)
+
+            self.assertEqual(
+                set(checksums),
+                {
+                    "install.sh",
+                    "install-agent.ps1",
+                    "uninstall.sh",
+                    "uninstall-agent.ps1",
+                    "release.json",
+                },
             )
 
 

@@ -17,7 +17,10 @@ jobs:
         run: |
           sh -n artifacts/install-agent.sh
           sh -n artifacts/install-agent-rc.sh
-          find artifacts/agent -name install.sh -print0 | xargs -0 -n1 sh -n
+          if [ -f artifacts/uninstall-agent.sh ]; then
+            sh -n artifacts/uninstall-agent.sh
+          fi
+          find artifacts/agent \( -name install.sh -o -name uninstall.sh \) -print0 | xargs -0 -n1 sh -n
           python3 -m py_compile scripts/prepare_agent_release.py
           python3 -m unittest scripts/test_prepare_agent_release.py
 
@@ -38,7 +41,8 @@ jobs:
           $scripts = @(
             Get-Item ./artifacts/install-agent.ps1
             Get-Item ./artifacts/install-agent-rc.ps1
-            Get-ChildItem ./artifacts/agent -Filter install-agent.ps1 -Recurse
+            Get-Item ./artifacts/uninstall-agent.ps1 -ErrorAction SilentlyContinue
+            Get-ChildItem ./artifacts/agent -Filter *.ps1 -Recurse
           )
           foreach ($script in $scripts) {
             $tokens = $null
