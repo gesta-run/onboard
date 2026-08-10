@@ -15,7 +15,7 @@ ensure_stable_cwd
 
 channel=${GESTA_AGENT_CHANNEL:-stable}
 rc_version=0.0.1-rc87
-stable_version=0.1.0
+stable_version=0.2.0
 
 case "$channel" in
   rc|stable)
