@@ -1,0 +1,63 @@
+name: Clean Up Agent RC Releases
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: cleanup-agent-rc
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out onboard
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Prune old RC releases
+        run: |
+          set -euo pipefail
+          python3 scripts/prune_agent_releases.py \
+            --artifacts-dir artifacts \
+            --keep 10
+
+      - name: Verify retained artifacts
+        run: |
+          set -euo pipefail
+          python3 -m unittest scripts/test_prune_agent_releases.py
+          find artifacts/agent/rc -name SHA256SUMS -execdir sha256sum -c SHA256SUMS \;
+
+      - name: Open cleanup pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- artifacts/agent/rc; then
+            echo "No RC releases need pruning."
+            exit 0
+          fi
+          branch="maintenance/prune-agent-rc-${GITHUB_RUN_ID}"
+          git config user.name "Gesta Bot"
+          git config user.email "bot@cloudpilot.ai"
+          git checkout -b "$branch"
+          git add artifacts/agent/rc
+          git commit -s -m "Prune old RC agent assets"
+          git push -u origin "$branch"
+          body_file="$(mktemp)"
+          {
+            echo "Removes old Gesta agent RC artifacts."
+            echo
+            echo "- Retained releases: 10"
+            echo "- Triggered by: ${{ github.actor }}"
+          } > "$body_file"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "Prune old RC agent assets" \
+            --body-file "$body_file"
