@@ -1,26 +1,26 @@
 {
   "channel": "rc",
-  "version": "0.0.1-rc84",
+  "version": "0.0.1-rc85",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc84/bin/gesta-agent-darwin-amd64",
-      "sha256": "49f099fa8e54c9b9e55627fdbf94e05586a3216ab6e23675008596ee11dd02ad"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-darwin-amd64",
+      "sha256": "cbf635e708ba5dd23ea153eba78633fa47ce31d6d69daeec59a608a37a79cba9"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc84/bin/gesta-agent-darwin-arm64",
-      "sha256": "e11f7a89b48f0e07e822afe01e92658f379aca31412fcebe7436c402e9ce9fd8"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-darwin-arm64",
+      "sha256": "24fa29653781b260817d51f37b41585cc692d689f033b09ddcdc0cd99ea4bbdc"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc84/bin/gesta-agent-linux-amd64",
-      "sha256": "3d1c3e2373c6f9ed15f5ae8afbd1923e0ebd463a6c36981465167f861f5833f5"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-linux-amd64",
+      "sha256": "6e97002bdb1a887cf9d078c31e6fb0783b6aca132a1db6a1a33036101d029e5d"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc84/bin/gesta-agent-linux-arm64",
-      "sha256": "cea1f5a306cb8a9c5ee9d69375243807b8f017d184ce705d15b0072d15b268fd"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-linux-arm64",
+      "sha256": "d9574567da8ddcc061c70bcad2aba5fdea864a8c6db18d6a3a37be5e3004a9ca"
     },
     "windows/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc84/bin/gesta-agent-windows-amd64.exe",
-      "sha256": "50ffd223e05cb9e67afa27118bde82bead500e7725cdbc6714004fe9849ff020"
+      "url": "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc85/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "00992609d12f08de1dfacde767794bff5139639e7f95ac9c41759bc190ff9699"
     }
   }
 }
