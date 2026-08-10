@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: Check out onboard
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Check out agent
         uses: actions/checkout@v4
@@ -65,10 +67,10 @@ jobs:
           done
           case "${{ inputs.channel }}" in
             rc)
-              case "${{ inputs.version }}" in
-                *-rc*) ;;
-                *) echo "rc channel requires an rc version" >&2; exit 1 ;;
-              esac
+              if ! printf '%s\n' "${{ inputs.version }}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+-rc[0-9]+$'; then
+                echo "rc channel requires a numeric rc version" >&2
+                exit 1
+              fi
               ;;
             stable)
               case "${{ inputs.version }}" in
@@ -90,6 +92,15 @@ jobs:
             --version "${{ inputs.version }}" \
             --agent-ref "${{ inputs.agent_ref }}" \
             --agent-sha "${{ steps.release.outputs.agent_sha }}"
+
+      - name: Prune old RC releases
+        if: inputs.channel == 'rc'
+        run: |
+          set -euo pipefail
+          python3 scripts/prune_agent_releases.py \
+            --artifacts-dir artifacts \
+            --keep 10
+
       - name: Open release pull request
         env:
           GH_TOKEN: ${{ github.token }}

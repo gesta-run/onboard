@@ -21,8 +21,12 @@ jobs:
             sh -n artifacts/uninstall-agent.sh
           fi
           find artifacts/agent \( -name install.sh -o -name uninstall.sh \) -print0 | xargs -0 -n1 sh -n
-          python3 -m py_compile scripts/prepare_agent_release.py
-          python3 -m unittest scripts/test_prepare_agent_release.py
+          python3 -m py_compile \
+            scripts/prepare_agent_release.py \
+            scripts/prune_agent_releases.py
+          python3 -m unittest \
+            scripts/test_prepare_agent_release.py \
+            scripts/test_prune_agent_releases.py
 
       - name: Verify checksums
         run: |
