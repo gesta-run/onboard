@@ -1,22 +1,26 @@
 {
   "channel": "stable",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.1.0/bin/gesta-agent-darwin-amd64",
-      "sha256": "ef728d2d02707ac588562ea6d9783be84e27783033eaf1d1a1a22d9f610ad153"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.2.0/bin/gesta-agent-darwin-amd64",
+      "sha256": "f4acf4c3fa5ad3500db259f55871b7f0ed95451353058f8cf5d1c049c1c732c7"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.1.0/bin/gesta-agent-darwin-arm64",
-      "sha256": "dc24a57b7dd39bd9d1a429acaa5118a74e3ee421a9fdfc1c7b4e9a9656752459"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.2.0/bin/gesta-agent-darwin-arm64",
+      "sha256": "f62399bfff624935a499d5515aca729c88d37c0bf5641e073b1f780cac087463"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.1.0/bin/gesta-agent-linux-amd64",
-      "sha256": "ee86c65dae671cb473e4e8f75b0d0d7c16afd2fd71c8fe87385b40290f81e59f"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.2.0/bin/gesta-agent-linux-amd64",
+      "sha256": "552240164769135ba924a42b9c80ad21cb49c90e44f7b9a8bd1490732c4b916a"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.1.0/bin/gesta-agent-linux-arm64",
-      "sha256": "2ecc17d722e40f92da4238959514384ead2e0d4144fd1374f734ea26196718a6"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.2.0/bin/gesta-agent-linux-arm64",
+      "sha256": "6a8ab7f40d92178948dab9f7706469908814e43da7b46d60c420d0246fd92ef5"
+    },
+    "windows/amd64": {
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.2.0/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "f9ca14cc45da4acde977a66c6241212bb1d2cf469a1fada9a626796c9ad39516"
     }
   }
 }
