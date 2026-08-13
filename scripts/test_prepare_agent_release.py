@@ -1,3 +1,4 @@
+import json
 import pathlib
 import tempfile
 import unittest
@@ -8,6 +9,7 @@ from scripts.prepare_agent_release import (
     update_channel_entrypoints,
     update_uninstall_entrypoints,
     write_checksums,
+    write_manifest,
 )
 
 
@@ -17,6 +19,31 @@ class PrepareAgentReleaseTest(unittest.TestCase):
             platform_from_asset("gesta-agent-windows-amd64.exe"),
             "windows/amd64",
         )
+
+    def test_platform_rejects_hook_launcher(self) -> None:
+        with self.assertRaises(ValueError):
+            platform_from_asset("gesta-agent-hook-launcher-windows-amd64.exe")
+
+    def test_manifest_includes_windows_hook_launcher(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            artifacts = pathlib.Path(temporary)
+            channel_dir = artifacts / "agent" / "rc"
+            channel_dir.mkdir(parents=True)
+            checksums = {
+                "bin/gesta-agent-darwin-amd64": "a" * 64,
+                "bin/gesta-agent-darwin-arm64": "b" * 64,
+                "bin/gesta-agent-linux-amd64": "c" * 64,
+                "bin/gesta-agent-linux-arm64": "d" * 64,
+                "bin/gesta-agent-windows-amd64.exe": "e" * 64,
+                "bin/gesta-agent-hook-launcher-windows-amd64.exe": "f" * 64,
+            }
+
+            write_manifest(artifacts, "rc", "0.0.1-rc99", checksums)
+
+            manifest = json.loads((channel_dir / "manifest.json").read_text())
+            launcher = manifest["assets"]["windows/amd64"]["hook_launcher"]
+            self.assertTrue(launcher["url"].endswith("gesta-agent-hook-launcher-windows-amd64.exe"))
+            self.assertEqual(launcher["sha256"], "f" * 64)
 
     def test_rewrite_installers_pins_release_url(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

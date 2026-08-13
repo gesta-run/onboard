@@ -33,6 +33,7 @@ cd "${HOME:-/tmp}" && curl -fsSL https://artifacts.gesta.run/gesta/install-agent
 - `artifacts/agent/<channel>/<version>/`: immutable release installers and binaries.
 - `artifacts/agent/<channel>/manifest.json`: mutable channel pointer consumed by
   the Control Plane for automatic upgrades. It contains the target version and
-  SHA256 for each supported platform.
+  SHA256 for each supported platform, plus the required no-console hook
+  launcher for Windows.
 
 GitHub Pages publishes the `artifacts/` directory.
