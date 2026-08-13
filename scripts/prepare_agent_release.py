@@ -17,6 +17,10 @@ SUPPORTED_PLATFORMS = {
     "linux/arm64",
     "windows/amd64",
 }
+MAIN_AGENT_ASSET = re.compile(
+    r"^gesta-agent-(darwin|linux|windows)-(amd64|arm64)(\.exe)?$"
+)
+WINDOWS_HOOK_LAUNCHER_ASSET = "gesta-agent-hook-launcher-windows-amd64.exe"
 
 
 def parse_args() -> argparse.Namespace:
@@ -104,8 +108,10 @@ def write_checksums(target: pathlib.Path) -> dict[str, str]:
 
 
 def platform_from_asset(name: str) -> str:
-    normalized = name.removeprefix("gesta-agent-").removesuffix(".exe")
-    return normalized.replace("-", "/", 1)
+    match = MAIN_AGENT_ASSET.fullmatch(name)
+    if match is None:
+        raise ValueError(f"not a main agent asset: {name}")
+    return f"{match.group(1)}/{match.group(2)}"
 
 
 def write_manifest(
@@ -116,14 +122,21 @@ def write_manifest(
 ) -> None:
     base_url = f"https://artifacts.gesta.run/gesta/agent/{channel}/{version}"
     assets = {}
+    hook_launcher = None
     for path, digest in checksums.items():
         name = pathlib.PurePosixPath(path).name
-        if not name.startswith("gesta-agent-"):
+        if name == WINDOWS_HOOK_LAUNCHER_ASSET:
+            hook_launcher = {"url": f"{base_url}/bin/{name}", "sha256": digest}
+            continue
+        if MAIN_AGENT_ASSET.fullmatch(name) is None:
             continue
         platform = platform_from_asset(name)
         assets[platform] = {"url": f"{base_url}/bin/{name}", "sha256": digest}
     if set(assets) != SUPPORTED_PLATFORMS:
         raise RuntimeError(f"release assets do not match supported platforms: {assets.keys()}")
+    if hook_launcher is None:
+        raise RuntimeError("release is missing the Windows hook launcher")
+    assets["windows/amd64"]["hook_launcher"] = hook_launcher
     manifest_path = artifacts_dir / "agent" / channel / "manifest.json"
     manifest_path.write_text(
         json.dumps({"channel": channel, "version": version, "assets": assets}, indent=2)
