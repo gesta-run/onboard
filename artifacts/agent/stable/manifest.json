@@ -1,29 +1,29 @@
 {
   "channel": "stable",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "assets": {
     "darwin/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-darwin-amd64",
-      "sha256": "14bfe5c71aa4775f3211f76890f0d23c4d844721a23e06db86de19769d0c732b"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-darwin-amd64",
+      "sha256": "763c7a5a6725a34266743843b3b0845cd145351a2481db34e3557704083fd153"
     },
     "darwin/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-darwin-arm64",
-      "sha256": "f5f8b6b0266e8145fa4b56e1d5952dfcdd25dd05f26079a941107f5df73e6b04"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-darwin-arm64",
+      "sha256": "d7900d7a95cce7b7ecfb39d20d9bf40b8ead0d985bd8d08236cead32c9aae756"
     },
     "linux/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-linux-amd64",
-      "sha256": "5e8abf850d2d1b3c7aa82838e9dcee05d279781ac35ae83b00421c4bd478a20b"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-linux-amd64",
+      "sha256": "5440cdbc94f2d9cc6fe9beaa57f8e80dea5b8b78ee7dd35688aa7f38ae4a4929"
     },
     "linux/arm64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-linux-arm64",
-      "sha256": "95fefc18f40c5ba8adc6963d5e5f2aadd84df2a2d291d452b9880dcbe89c9a43"
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-linux-arm64",
+      "sha256": "5bf74172126df420e4fecf142b02a739e8e70ffd83208cde24a8b913ea4d7cf3"
     },
     "windows/amd64": {
-      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-windows-amd64.exe",
-      "sha256": "8beb1f05a9708a4f0a151c87bf6ccb853b008c11fce52a8d8a463cabca0d0a24",
+      "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-windows-amd64.exe",
+      "sha256": "3649aa758a629b7776b8c6ed1448a0cafd13d1d48b4863870e5e221c0ce36d5b",
       "hook_launcher": {
-        "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.3/bin/gesta-agent-hook-launcher-windows-amd64.exe",
-        "sha256": "3fb9e6200497c69aa1615d14d7eccd75914905642eb54c86954f76804a872543"
+        "url": "https://artifacts.gesta.run/gesta/agent/stable/0.3.4/bin/gesta-agent-hook-launcher-windows-amd64.exe",
+        "sha256": "c94d66560a6ec7b23997ac12b7f11ce57792397977c78d6c8f0dccd41085cc9b"
       }
     }
   }
