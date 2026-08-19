@@ -22,7 +22,7 @@ $channel = if ([string]::IsNullOrWhiteSpace($env:GESTA_AGENT_CHANNEL)) {
 } else {
     $env:GESTA_AGENT_CHANNEL
 }
-$rcVersion = "0.3.3-rc1"
+$rcVersion = "0.3.6-rc1"
 $stableVersion = "0.3.5"
 
 switch ($channel) {
