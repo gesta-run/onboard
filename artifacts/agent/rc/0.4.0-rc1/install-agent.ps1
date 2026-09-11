@@ -9,7 +9,7 @@ param(
     [string]$ApiKey,
 
     [ValidateNotNullOrEmpty()]
-    [string]$BaseUrl = "https://artifacts.gesta.run/gesta/agent/rc/0.0.1-rc88",
+    [string]$BaseUrl = "https://artifacts.gesta.run/gesta/agent/rc/0.4.0-rc1",
 
     [string]$InstallDir = "",
 
